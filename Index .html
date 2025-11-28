@@ -1,421 +1,250 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>خطة التعافي 12 أسبوع</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تعافي 63 🌿 – بداية من 15 مجم</title>
 <style>
-  :root { --bg:#0b1220; --card:#10192e; --muted:#99a3b3; --text:#e9eef7; --accent:#4ade80; --accent2:#60a5fa; --warn:#fbbf24; --danger:#fb7185 }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,Segoe UI,Roboto,Arial;color:var(--text);background:linear-gradient(180deg,#0b1220 0%,#0e1730 60%,#0b1220 100%) fixed}
-  header{padding:20px 16px;border-bottom:1px solid #1f2a44;position:sticky;top:0;background:rgba(11,18,32,.8);backdrop-filter:blur(8px)}
-  h1{margin:0;font-size:20px}
-  .wrap{max-width:1100px;margin:16px auto;padding:0 12px}
-  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
-  .card{grid-column:span 12;background:var(--card);border:1px solid #1f2a44;border-radius:14px;padding:14px}
-  @media(min-width:900px){ .card.half{grid-column:span 6} }
-  label{display:block;font-size:12px;color:var(--muted);margin:8px 0 6px}
-  input[type="number"], select, textarea{
-    width:100%;padding:10px 12px;border-radius:10px;border:1px solid #263558;background:#0c1426;color:var(--text);
-    outline:none
-  }
-  input[type="number"]:focus, textarea:focus{border-color:#3b82f6}
-  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .btn{padding:10px 14px;border-radius:10px;border:1px solid #2a3b63;background:#0c1426;color:#e6eefb;cursor:pointer}
-  .btn:hover{border-color:#3b82f6}
-  .btn.accent{background:#12311e;border-color:#1f7a3e;color:#d7ffe1}
-  .btn.warn{background:#32240d;border-color:#9a6a10;color:#fff3cd}
-  .btn.danger{background:#3a1521;border-color:#a61b42;color:#ffe4ea}
-  .muted{color:var(--muted)}
-  .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid #2a3b63;background:#0c1426;font-size:12px}
-  .kpi{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-  .bar{height:8px;background:#0c1426;border:1px solid #243352;border-radius:999px;overflow:hidden}
-  .bar>span{display:block;height:100%;background:linear-gradient(90deg,#60a5fa,#4ade80)}
-  .table{width:100%;border-collapse:collapse}
-  .table th,.table td{border-bottom:1px solid #223054;padding:8px 6px;text-align:center;font-size:13px}
-  .hint{font-size:12px;color:#aab4c8}
-  .ok{color:var(--accent)} .bad{color:var(--danger)}
-  .sub{font-size:12px;color:#b9c3d7}
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+body{font-family:'Cairo',sans-serif;background:#f8f9fa;color:#222;margin:0;line-height:1.6}
+header{background:#fff;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:10}
+h1{font-size:22px;margin:0;background:linear-gradient(90deg,#2ecc71,#3498db);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.wrap{max-width:1100px;margin:auto;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.card{grid-column:span 12;background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+@media(min-width:900px){.half{grid-column:span 6}}
+.btn{padding:10px 16px;border:none;border-radius:12px;cursor:pointer;margin:4px;font-size:14px Cairo,sans-serif}
+.btn.a{background:#2ecc71;color:#fff}.btn.w{background:#f39c12;color:#fff}
+.pill{padding:6px 14px;border-radius:30px;background:#e8f5e9;font-size:13px;display:inline-flex;align-items:center;gap:6px}
+.bar{height:10px;background:#eee;border-radius:5px;overflow:hidden;margin:10px 0}
+.bar span{display:block;height:100%;background:linear-gradient(90deg,#3498db,#2ecc71);transition:0.5s}
+.table{width:100%;border-collapse:collapse;font-size:14px}
+.table th{background:#f0f8ff;padding:12px}
+.table td{padding:10px;text-align:center;border-bottom:1px solid #eee}
+.supp label{display:flex;align-items:center;gap:12px;padding:12px;background:#f8f9fa;border-radius:10px;margin:6px 0;cursor:pointer}
+.tip{background:#e8f5ff;padding:16px;border-radius:12px;border-right:5px solid #3498db;margin:12px 0;font-size:15px}
+.mood{padding:10px 20px;border-radius:30px;background:#f0f0f0;cursor:pointer;transition:0.3s}
+.mood.active{background:#d5f5e3;border:2px solid #2ecc71}
+#chart{height:200px !important}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="row" style="justify-content:space-between">
-    <h1>خطة التعافي 12 أسبوع — إدارة التدرّج اليومية</h1>
-    <div class="row">
-      <button class="btn warn" id="resetStart">إعادة تحديد يوم البدء</button>
-      <button class="btn" id="exportCsv">تصدير CSV</button>
-      <button class="btn danger" id="wipe">مسح كل البيانات</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+    <h1>تعافي 63 🌿 – بداية من 15 مجم إيزوبيكلون</h1>
+    <div>
+      <button class="btn" id="openInv">المخزون 📦</button>
+      <button class="btn" id="prevDay">⬅ السابق</button>
+      <button class="btn" id="nextDay">التالي ➡</button>
+      <button class="btn w" id="resetStart">تاريخ البداية 📅</button>
+      <button class="btn a" id="saveDay">حفظ اليوم ✅</button>
     </div>
   </div>
-  <div class="row" style="margin-top:8px;gap:12px">
-    <span class="pill">يوم البدء: <b id="startDateLabel"></b></span>
-    <span class="pill">اليوم الحالي: <b id="dayIdxLabel"></b> / 84</span>
-    <span class="pill">الأسبوع: <b id="weekLabel"></b></span>
+  <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+    <span class="pill">بدء: <b id="startDateLabel"></b></span>
+    <span class="pill">يوم <b id="dayIdxLabel">1</b>/63</span>
+    <span class="pill">أسبوع <b id="pill">تقدم <b id="progressText">0%</b></span>
+    <div class="bar" style="flex:1"><span id="progressBar" style="width:0%"></span></div>
   </div>
 </header>
 
-<div class="wrap">
-  <div class="grid">
-    <!-- بطاقة الجرعات -->
-    <div class="card">
-      <h3 style="margin-top:0">الجرعات المستهدفة اليوم</h3>
-      <p class="sub" id="targetsText"></p>
-      <div class="bar"><span id="progressBar" style="width:0%"></span></div>
-      <p class="hint">يتم حساب اليوم تلقائيًا من أول مرة فتحت فيها الصفحة (يمكن تغيير يوم البدء من الزر بالأعلى).</p>
-    </div>
+<div class="wrap"><div class="grid">
 
-    <!-- إدخال الجرعات الفعلية -->
-    <div class="card half">
-      <h3 style="margin-top:0">تسجيل الأدوية (المأخوذ اليوم)</h3>
-      <table class="table" id="drugTable">
-        <thead>
-          <tr>
-            <th>الدواء</th><th>الحد/الهدف (مجم)</th><th>ما تم أخذه (مجم)</th><th>تحذير</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <div class="row" style="margin-top:10px">
-        <button class="btn accent" id="saveDay">حفظ اليوم</button>
-        <span class="muted" id="saveMsg"></span>
-      </div>
-    </div>
+  <div class="card" id="chartCard"><h3>منحنى الانسحاب 📉</h3><canvas id="chart"></canvas></div>
 
-    <!-- مكملات + سلوك -->
-    <div class="card half">
-      <h3 style="margin-top:0">المكملات والسلوك اليومي</h3>
-      <label>مكملات اليوم</label>
-      <div class="row" style="gap:10px;flex-wrap:wrap">
-        <label class="pill"><input type="checkbox" id="supAM"> صباحًا (D3, C, B-Complex) </label>
-        <label class="pill"><input type="checkbox" id="supNoon"> غداء (Omega3, CoQ10, NAC, Milk Thistle) </label>
-        <label class="pill"><input type="checkbox" id="supPM"> مساءً (Zinc, Probiotic, Spirulina) </label>
-        <label class="pill"><input type="checkbox" id="supBed"> قبل النوم (Magnesium, Psyllium) </label>
-      </div>
-      <label style="margin-top:10px">مذكرة اليوم</label>
-      <textarea id="notes" rows="4" placeholder="اكتب أي ملاحظات (رغبة، محفّزات، أكل، صعوبات)..."></textarea>
-    </div>
+  <div class="card"><h3>جرعات اليوم 🎯</h3><p id="targetsText" style="font-size:19px;font-weight:600"></p></div>
 
-    <!-- مؤشرات KPI -->
-    <div class="card">
-      <h3 style="margin-top:0">مؤشرات اليوم (KPIs)</h3>
-      <div class="kpi">
-        <div>
-          <label>الطاقة (1–10)</label>
-          <input type="number" id="kpiEnergy" min="1" max="10" step="1" />
-        </div>
-        <div>
-          <label>جودة/ساعات النوم</label>
-          <input type="number" id="kpiSleep" min="0" max="12" step="0.5" />
-        </div>
-        <div>
-          <label>عدد نوبات القلق اليوم</label>
-          <input type="number" id="kpiAnxiety" min="0" max="20" step="1" />
-        </div>
-        <div>
-          <label>الهضم/الانتفاخ (1–10)</label>
-          <input type="number" id="kpiGut" min="1" max="10" step="1" />
-        </div>
-      </div>
-    </div>
+  <div class="card">
+    <h3>تسجيل الجرعات اليوم</h3>
+    <table class="table">
+      <tr><th>الدواء</th><th>الهدف</th><th>أُخذ</th></tr>
+      <tr><td>إيزوبيكلون</td><td id="t_eso">15</td><td><input type="number" step="0.5" data-k="eso" style="width:100px;padding:8px"></td></tr>
+      <tr><td>جابابنتين</td><td id="t_gab">2200</td><td><input type="number" step="50" data-k="gab" style="width:100px;padding:8px"></td></tr>
+      <tr><td>منشطات</td><td id="t_stim">650</td><td><input type="number" step="25" data-k="stim" style="width:100px;padding:8px"></td></tr>
+      <tr><td>كافيين ≤</td><td id="t_caf">350</td><td><input type="number" step="10" data-k="caf" style="width:100px;padding:8px"></td></tr>
+    </table>
+    <button class="btn" id="voiceNote">🎤 ملاحظة صوتية</button>
+  </div>
 
-    <!-- جدول ملخص أسبوعي بسيط -->
-    <div class="card">
-      <h3 style="margin-top:0">ملخص سريع</h3>
-      <p class="hint">عند الحفظ اليومي، يتم تحديث التقدّم. يمكنك تصدير ملف CSV من أعلى الصفحة ورفعه على Notion.</p>
-      <div id="weeklyHint" class="muted"></div>
+  <div class="card">
+    <h3>نصيحة اليوم لأعراض الانسحاب 💡</h3>
+    <div id="dailyTip" class="tip"></div>
+  </div>
+
+  <div class="card half">
+    <h3>المكملات اليومية 💊</h3>
+    <div class="supp">
+      <label><input type="checkbox" id="s1"> مغنيسيوم جلايسينات 400 مجم</label>
+      <label><input type="checkbox" id="s2"> لـ ثيانين 200–400 مجم</label>
+      <label><input type="checkbox" id="s3"> ميلاتونين 0.5–1 مجم</label>
+      <label><input type="checkbox" id="s4"> أوميجا-3 عالي EPA</label>
+      <label><input type="checkbox" id="s5"> فيتامين د 5000 وحدة</label>
+      <label><input type="checkbox" id="s6"> فيتامين ب مركب</label>
     </div>
   </div>
-</div>
 
+  <div class="card half">
+    <h3>مزاجك اليوم</h3>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:15px 0">
+      <span class="mood" onclick="setMood(1)">😔</span>
+      <span class="mood" onclick="setMood(2)">😰</span>
+      <span class="mood active" onclick="setMood(3)">😐</span>
+      <span class="mood" onclick="setMood(4)">🙂</span>
+      <span class="mood" onclick="setMood(5)">😁</span>
+    </div>
+    <textarea id="notes" rows="4" placeholder="ملاحظات اليوم..."></textarea>
+  </div>
+
+  <div class="card">
+    <h3>المخزون 📦</h3>
+    <table class="table" id="invTable"><tbody></tbody></table>
+  </div>
+
+</div></div>
+
+<dialog id="invDlg">
+  <form method="dialog" style="padding:20px">
+    <h3>إعدادات المخزون</h3>
+    <div id="invForm"></div>
+    <div style="margin-top:20px;text-align:left">
+      <button class="btn" value="cancel">إلغاء</button>
+      <button class="btn a" id="saveInv">حفظ</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-/* ========= الإعداد العام ========= */
-const LS_KEY = "recovery12_data_v1";
-const START_KEY = "recovery12_start_v1";
+const TOTAL_DAYS = 63;
+const LS_START = "t63_start", LS_DATA = "t63_data", LS_INV = "t63_inv";
+let currentDay = 1, currentMood = 3, chart = null;
 
-/* إذا لم يوجد تاريخ بدء، نسجّله اليوم (بتوقيت جهازك) */
+// الخطة 63 يوم
+const targets = {
+  eso:[0,15,15,15,15,15,15,15,14,14,14,14,14,14,14,14,14,14,14,14,12,12,12,12,12,12,12,10,10,10,10,10,10,10,8,8,8,8,8,8,8,6,6,6,6,6,6,6,4,4,4,4,4,4,4,2,2,2,1,1,1,0],
+  gab:[0,2200,2200,2200,2200,2200,2200,2200,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,1800,1800,1800,1800,1800,1600,1600,1600,1600,1600,1600,1600,1400,1400,1400,1400,1400,1400,1400,1200,1200,1200,1200,1200,1200,1200,1000,1000,1000,1000,1000,1000,1000,800,800,800,800,800,800,800,600,600,600,300,300,300,0],
+  stim:[0,650,650,650,650,650,650,650,600,600,600,600,600,600,600,600,600,600,600,600,550,550,550,550,550,500,500,500,500,500,500,500,400,400,400,400,400,400,400,300,300,300,300,300,300,300,200,200,200,200,200,200,200,100,100,100,100,100,100,100,50,50,50,0,0,0,0],
+  caf:[0,350,350,350,350,350,350,350,300,300,300,300,300,300,300,300,300,300,300,300,250,250,250,250,250,200,200,200,200,200,200,200,150,150,150,150,150,150,150,100,100,100,100,100,100,100,75,75,75,75,75,75,75,50,50,50,50,50,50,50,30,30,30,10,10,10,0]
+};
+
+const tips = ["💧 اشرب 3–4 لتر ماء يوميًا","🧘‍♂️ مغنيسيوم جلايسينات = سحر للقلق","🏃‍♂️ 20 دقيقة مشي يوميًا","☕ لا كافيين بعد 2 ظهرًا","🛁 حمام ملح إبسوم","🌬 تنفس 4-7-8","🐟 أوميجا-3 عالي EPA","⏰ مواعيد نوم ثابتة"];
+
 function getStartDate(){
-  let s = localStorage.getItem(START_KEY);
-  if(!s){
-    const today = new Date();
-    // ثبّت الساعة لبداية اليوم لتجنب فروقات
-    today.setHours(0,0,0,0);
-    localStorage.setItem(START_KEY, today.toISOString());
-    s = today.toISOString();
-  }
+  let s = localStorage.getItem(LS_START);
+  if(!s){let d=new Date();d.setHours(0,0,0,0);localStorage.setItem(LS_START,d.toISOString());s=d.toISOString();}
   return new Date(s);
 }
-
-function setStartDate(d){
-  d.setHours(0,0,0,0);
-  localStorage.setItem(START_KEY, d.toISOString());
-  renderAll();
+function getCurrentDay(){
+  let diff = Date.now() - getStartDate().getTime();
+  return Math.min(TOTAL_DAYS, Math.max(1, Math.floor(diff / 86400000) + 1));
 }
 
-/* حساب index اليوم (1..84) */
-function getDayIndex(){
-  const start = getStartDate().getTime();
-  const now = new Date(); now.setHours(0,0,0,0);
-  const diffDays = Math.floor( (now.getTime() - start) / (1000*60*60*24) ) + 1;
-  return Math.min(84, Math.max(1, diffDays));
+function loadDayData(day){
+  let all = JSON.parse(localStorage.getItem(LS_DATA) || "{}");
+  return all[day] || {med:{}, mood:3, notes:""};
+}
+function saveDayData(day, data){
+  let all = JSON.parse(localStorage.getItem(LS_DATA) || "{}");
+  all[day] = data;
+  localStorage.setItem(LS_DATA, JSON.stringify(all));
 }
 
-function getWeekByDay(d){
-  return Math.ceil(d/7);
+function renderChart(){
+  if(chart) chart.destroy();
+  chart = new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+      labels: Array.from({length:TOTAL_DAYS},(_,i)=>i+1),
+      datasets: [
+        {label:'إيزوبيكلون',data:targets.eso.slice(1),borderColor:'#e74c3c',tension:0.4,fill:false},
+        {label:'جابابنتين',data:targets.gab.slice(1).map(x=>x/100),borderColor:'#f39c12',tension:0.4,fill:false},
+        {label:'منشطات',data:targets.stim.slice(1),borderColor:'#3498db',tension:0.4,fill:false}
+      ]
+    },
+    options: {plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}},maintainAspectRatio:false}
+  });
 }
 
-/* ========= خطة الجرعات (84 يوم) ========= */
-/* بناء الخطة طبقًا لاتفاقنا:
-   - Prafamax: 400mg(d1-14) → 200(d15-28) → 100(d29-42) → 0(d43-84)
-   - Armodacure: 300(d1-14) → 225(d15-28) → 150(d29-42) → 75(d43-70) → 75 مرتين/الأسبوع (حوالي d71-84: 0 في معظم الأيام — سنضع 0 هدف يومي ونذكّر بإمكانية جرعات متفرقة)
-   - Night Calm (Zopiclone): 12(d1-14) → 9(d15-28) → 6(d29-42) → 3(d43-56) → 2(d57-63) → 1(d64-70) → 0(d71-84)
-   - Gabapentin: 2400(d1-14) → 1600(d15-28) → 800(d29-42) → 800 يوم بعد يوم (d43-56) → 0(d57-84)
-   - Caffeine+Sugar target mg caffeine: 300 → 200 → 150 → 100 → 80 ثابت
-*/
+function render(){
+  currentDay = getCurrentDay();
+  document.getElementById("dayIdxLabel").textContent = currentDay;
+  document.getElementById("progressText").textContent = Math.round(currentDay/TOTAL_DAYS*100)+"%";
+  document.getElementById("progressBar").style.width = (currentDay/TOTAL_DAYS*100)+"%";
+  document.getElementById("startDateLabel").textContent = getStartDate().toLocaleDateString('ar-EG');
 
-function fillRange(arr, start, end, val){
-  for(let i=start;i<=end;i++) arr[i]=val;
-}
-const targets = {
-  Prafamax: new Array(85).fill(0),   // index 1..84
-  Armodacure: new Array(85).fill(0),
-  NightCalm: new Array(85).fill(0),
-  Gabapentin: new Array(85).fill(0),
-  Caffeine: new Array(85).fill(0)
-};
-// Prafamax
-fillRange(targets.Prafamax, 1,14,400);
-fillRange(targets.Prafamax,15,28,200);
-fillRange(targets.Prafamax,29,42,100);
-// Armodacure
-fillRange(targets.Armodacure,1,14,300);
-fillRange(targets.Armodacure,15,28,225);
-fillRange(targets.Armodacure,29,42,150);
-fillRange(targets.Armodacure,43,70,75);
-// d71-84: نضع 0 كهدف يومي، مع إمكانية استخدامتين أسبوعيًا حسب الحاجة
-fillRange(targets.Armodacure,71,84,0);
-// Night Calm
-fillRange(targets.NightCalm,1,14,12);
-fillRange(targets.NightCalm,15,28,9);
-fillRange(targets.NightCalm,29,42,6);
-fillRange(targets.NightCalm,43,56,3);
-fillRange(targets.NightCalm,57,63,2);
-fillRange(targets.NightCalm,64,70,1);
-// Gabapentin
-fillRange(targets.Gabapentin,1,14,2400);
-fillRange(targets.Gabapentin,15,28,1600);
-fillRange(targets.Gabapentin,29,42,800);
-// يوم بعد يوم (d43..56): 800 في الأيام الفردية داخل هذا النطاق (43,45,...,55)
-for(let d=43; d<=56; d++){
-  targets.Gabapentin[d] = ( (d%2) ? 800 : 0 );
-}
-// Caffeine
-fillRange(targets.Caffeine,1,14,300);
-fillRange(targets.Caffeine,15,28,200);
-fillRange(targets.Caffeine,29,42,150);
-fillRange(targets.Caffeine,43,56,100);
-fillRange(targets.Caffeine,57,84,80);
+  document.getElementById("t_eso").textContent = targets.eso[currentDay];
+  document.getElementById("t_gab").textContent = targets.gab[currentDay];
+  document.getElementById("t_stim").textContent = targets.stim[currentDay];
+  document.getElementById("t_caf").textContent = targets.caf[currentDay];
 
-/* ========= تخزين يومي ========= */
-function loadAll(){
-  const raw = localStorage.getItem(LS_KEY);
-  return raw ? JSON.parse(raw) : {};
-}
-function saveAll(obj){
-  localStorage.setItem(LS_KEY, JSON.stringify(obj));
-}
-function getDayData(idx){
-  const all = loadAll();
-  return all[idx] || { meds:{}, kpi:{}, sup:{}, notes:"" };
-}
-function setDayData(idx, data){
-  const all = loadAll(); all[idx]=data; saveAll(all);
+  document.getElementById("targetsText").innerHTML = `إيزوبيكلون <b>\( {targets.eso[currentDay]}</b> مجم 🌙 • جابابنتين <b> \){targets.gab[currentDay]}</b> • منشطات <b>\( {targets.stim[currentDay]}</b> ⚡ • كافيين ≤ <b> \){targets.caf[currentDay]}</b> ☕`;
+
+  document.getElementById("dailyTip").innerHTML = "💡 <b>نصيحة اليوم:</b> " + tips[(currentDay-1)%tips.length];
+
+  let data = loadDayData(currentDay);
+  ["eso","gab","stim","caf"].forEach(k => document.querySelector(`input[data-k="${k}"]`).value = data.med[k] || "");
+  document.getElementById("notes").value = data.notes || "";
+  setMood(data.mood || 3);
+
+  renderChart();
+  renderInventory();
 }
 
-/* ========= واجهة ========= */
-const startDateLabel = document.getElementById("startDateLabel");
-const dayIdxLabel = document.getElementById("dayIdxLabel");
-const weekLabel = document.getElementById("weekLabel");
-const targetsText = document.getElementById("targetsText");
-const drugTableBody = document.querySelector("#drugTable tbody");
-const saveMsg = document.getElementById("saveMsg");
-const progressBar = document.getElementById("progressBar");
-const weeklyHint = document.getElementById("weeklyHint");
+function setMood(m){
+  currentMood = m;
+  document.querySelectorAll('.mood').forEach((el,i)=>el.classList.toggle('active',i===m-1));
+}
 
-const inputs = {
-  supAM: document.getElementById("supAM"),
-  supNoon: document.getElementById("supNoon"),
-  supPM: document.getElementById("supPM"),
-  supBed: document.getElementById("supBed"),
-  notes: document.getElementById("notes"),
-  kpiEnergy: document.getElementById("kpiEnergy"),
-  kpiSleep: document.getElementById("kpiSleep"),
-  kpiAnxiety: document.getElementById("kpiAnxiety"),
-  kpiGut: document.getElementById("kpiGut"),
+document.getElementById("saveDay").onclick = ()=>{
+  let data = {med:{}, mood:currentMood, notes:document.getElementById("notes").value};
+  ["eso","gab","stim","caf"].forEach(k=> {
+    let v = document.querySelector(`input[data-k="${k}"]`).value;
+    data.med[k] = v==="" ? null : Number(v);
+  });
+  saveDayData(currentDay, data);
+  alert("تم الحفظ ✅");
 };
 
-const DRUGS = [
-  {key:"Prafamax", label:"Prafamax (Modafinil)", unit:"mg"},
-  {key:"Armodacure", label:"Armodacure (Armodafinil)", unit:"mg"},
-  {key:"NightCalm", label:"Night Calm (Zopiclone)", unit:"mg"},
-  {key:"Gabapentin", label:"Gabapentin", unit:"mg"},
-  {key:"Caffeine", label:"Caffeine (target)", unit:"mg"},
-];
+document.getElementById("prevDay").onclick = () => {currentDay = Math.max(1,currentDay-1); render();}
+document.getElementById("nextDay").onclick = () => {currentDay = Math.min(TOTAL_DAYS,currentDay+1); render();}
 
-function renderAll(){
-  const start = getStartDate();
-  startDateLabel.textContent = start.toLocaleDateString();
-  const dayIdx = getDayIndex();
-  dayIdxLabel.textContent = dayIdx;
-  const wk = getWeekByDay(dayIdx);
-  weekLabel.textContent = wk;
+document.getElementById("resetStart").onclick = ()=>{
+  let s = prompt("تاريخ البداية الجديد (YYYY-MM-DD)", getStartDate().toISOString().slice(0,10));
+  if(s){
+    localStorage.setItem(LS_START, new Date(s).toISOString());
+    render();
+  }
+};
 
-  // نص الأهداف
-  const t = {
-    P: targets.Prafamax[dayIdx],
-    A: targets.Armodacure[dayIdx],
-    N: targets.NightCalm[dayIdx],
-    G: targets.Gabapentin[dayIdx],
-    C: targets.Caffeine[dayIdx],
-  };
-  targetsText.innerHTML = `اليوم المستهدف — Prafamax: <b>${t.P}</b> مجم، 
-    Armodacure: <b>${t.A}</b> مجم، Night Calm: <b>${t.N}</b> مجم، 
-    Gabapentin: <b>${t.G}</b> مجم، كافيين (حد أقصى): <b>${t.C}</b> مجم. 
-    ${ (wk>=11 ? "بالأسابيع 11–12: يمكن استخدام Armodacure مرتين أسبوعيًا فقط عند اللزوم." : "" ) }`;
+document.getElementById("voiceNote").onclick = ()=>{
+  let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SpeechRecognition) return alert("الميكروفون غير مدعوم");
+  let r = new SpeechRecognition();
+  r.lang = "ar";
+  r.onresult = e => document.getElementById("notes").value += e.results[0][0].transcript + " ";
+  r.start();
+};
 
-  // بناء جدول الأدوية
-  drugTableBody.innerHTML = "";
-  const dayData = getDayData(dayIdx);
-
-  let achievedCount = 0, totalTargets = 0;
-
-  DRUGS.forEach(dr => {
-    const target = targets[dr.key][dayIdx] ?? 0;
-    totalTargets += (target>0?1:0);
-    const takenVal = (dayData.meds && typeof dayData.meds[dr.key] !== "undefined")
-      ? dayData.meds[dr.key] : "";
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td style="text-align:right">${dr.label}</td>
-      <td>${target}</td>
-      <td><input type="number" min="0" step="1" style="width:110px" value="${takenVal}" data-key="${dr.key}" class="doseInput"></td>
-      <td class="sub" id="warn_${dr.key}"></td>
-    `;
-    drugTableBody.appendChild(tr);
-
-    // حساب التقدّم البسيط
-    if (target>0 && takenVal!=="" && Number(takenVal) <= target+1e-6) achievedCount++;
-    if (target===0 && takenVal!=="" && Number(takenVal)===0) achievedCount++;
-  });
-
-  // تعبئة بقية الحقول
-  inputs.supAM.checked = !!dayData.sup?.AM;
-  inputs.supNoon.checked = !!dayData.sup?.Noon;
-  inputs.supPM.checked = !!dayData.sup?.PM;
-  inputs.supBed.checked = !!dayData.sup?.Bed;
-  inputs.notes.value = dayData.notes || "";
-  inputs.kpiEnergy.value = dayData.kpi?.energy ?? "";
-  inputs.kpiSleep.value = dayData.kpi?.sleep ?? "";
-  inputs.kpiAnxiety.value = dayData.kpi?.anxiety ?? "";
-  inputs.kpiGut.value = dayData.kpi?.gut ?? "";
-
-  const prog = totalTargets===0 ? 0 : Math.round((achievedCount/DRUGS.length)*100);
-  progressBar.style.width = Math.min(100, Math.max(0, prog))+"%";
-
-  weeklyHint.textContent = `نصيحة الأسبوع ${wk}: ثبّت ميعاد النوم، اشرب ماء كفاية، وتجنب الكافيين بعد 3 عصراً.`;
+// المخزون البسيط
+function renderInventory(){
+  let inv = JSON.parse(localStorage.getItem(LS_INV)||"{}");
+  if(Object.keys(inv).length===0){
+    inv = {eso:{mg:3,box:20,boxes:5,loose:0},gab:{mg:300,box:30,boxes:3,loose:0},stim:{mg:150,box:30,boxes:2,loose:0}};
+    localStorage.setItem(LS_INV,JSON.stringify(inv));
+  }
+  let html = "";
+  for(let k in inv){
+    let name = k==="eso"?"إيزوبيكلون":k==="gab"?"جابابنتين":"منشطات";
+    let tabs = inv[k].boxes*inv[k].box + inv[k].loose;
+    html += `<tr><td>\( {name}</td><td> \){tabs} قرص</td><td>\( {inv[k].boxes} علبة + \){inv[k].loose} قرص</td><td><button class="btn" onclick="editInv('${k}')">تعديل</button></td></tr>`;
+  }
+  document.querySelector("#invTable tbody").innerHTML = html || "<tr><td colspan=4>اضغط المخزون للإعداد</td></tr>";
 }
+window.editInv = function(k){alert("سيتم إضافة نافذة تعديل كاملة قريبًا – حاليًا عدّل من الكود مباشرة")}
 
-document.getElementById("saveDay").addEventListener("click", ()=>{
-  const idx = getDayIndex();
-  const data = getDayData(idx);
-  data.meds = data.meds || {};
-  document.querySelectorAll(".doseInput").forEach(inp=>{
-    const k = inp.getAttribute("data-key");
-    const val = inp.value===""? "" : Number(inp.value);
-    data.meds[k] = val;
-    // تحذير بسيط لو تجاوز الهدف
-    const target = targets[k][idx] ?? 0;
-    const warn = document.getElementById("warn_"+k);
-    if (val!=="" && Number(val) > target && k!=="Caffeine"){
-      warn.textContent = "تجاوزت الهدف!";
-      warn.className="bad";
-    } else if(k==="Caffeine" && val!=="" && Number(val) > target){
-      warn.textContent = "كافيين أعلى من الحد!";
-      warn.className="bad";
-    } else {
-      warn.textContent = "";
-    }
-  });
-
-  data.sup = {
-    AM: inputs.supAM.checked,
-    Noon: inputs.supNoon.checked,
-    PM: inputs.supPM.checked,
-    Bed: inputs.supBed.checked
-  };
-  data.kpi = {
-    energy: inputs.kpiEnergy.value===""? null : Number(inputs.kpiEnergy.value),
-    sleep: inputs.kpiSleep.value===""? null : Number(inputs.kpiSleep.value),
-    anxiety: inputs.kpiAnxiety.value===""? null : Number(inputs.kpiAnxiety.value),
-    gut: inputs.kpiGut.value===""? null : Number(inputs.kpiGut.value),
-  };
-  data.notes = inputs.notes.value;
-
-  setDayData(idx, data);
-  saveMsg.textContent = "تم الحفظ ✅";
-  setTimeout(()=>saveMsg.textContent="",1500);
-  renderAll();
-});
-
-/* إعادة تحديد يوم البدء */
-document.getElementById("resetStart").addEventListener("click", ()=>{
-  const input = prompt("اكتب تاريخ البدء (YYYY-MM-DD). اتركه فاضي لاستخدام تاريخ اليوم:", "");
-  if(input===null) return;
-  let d = input.trim()? new Date(input.trim()+"T00:00:00") : new Date();
-  if(isNaN(d)) { alert("تاريخ غير صالح"); return; }
-  setStartDate(d);
-});
-
-/* مسح كل البيانات */
-document.getElementById("wipe").addEventListener("click", ()=>{
-  if(confirm("هل أنت متأكد من مسح كل البيانات؟")) {
-    localStorage.removeItem(LS_KEY);
-    renderAll();
-  }
-});
-
-/* تصدير CSV */
-document.getElementById("exportCsv").addEventListener("click", ()=>{
-  const all = loadAll();
-  const startISO = getStartDate().toISOString().slice(0,10);
-  let csv = "Day,Date,Week,Prafamax,Armodacure,NightCalm,Gabapentin,Caffeine,Supp_AM,Supp_Noon,Supp_PM,Supp_Bed,Energy,Sleep,Anxiety,Gut,Notes\n";
-  for(let d=1; d<=84; d++){
-    const date = new Date(getStartDate().getTime() + (d-1)*86400000).toISOString().slice(0,10);
-    const wk = getWeekByDay(d);
-    const row = all[d] || {};
-    const meds = row.meds || {};
-    const sup = row.sup || {};
-    const kpi = row.kpi || {};
-    const line = [
-      d,date,wk,
-      meds.Prafamax ?? "", meds.Armovacure ?? meds.Armodacure ?? "", meds.NightCalm ?? "",
-      meds.Gabapentin ?? "", meds.Caffeine ?? "",
-      sup.AM?1:0, sup.Noon?1:0, sup.PM?1:0, sup.Bed?1:0,
-      kpi.energy ?? "", kpi.sleep ?? "", kpi.anxiety ?? "", kpi.gut ?? "",
-      (row.notes?('"'+String(row.notes).replace(/"/g,'""')+'"'):"")
-    ].join(",");
-    csv += line + "\n";
-  }
-  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "recovery_12weeks_export.csv";
-  a.click();
-  URL.revokeObjectURL(a.href);
-});
-
-/* أول تشغيل */
-renderAll();
+render();
+setInterval(()=>{if(getCurrentDay() !== currentDay) render();}, 60000);
 </script>
 </body>
 </html>
